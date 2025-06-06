@@ -47,32 +47,25 @@ def XOR_smoothed_ReLU(network, train_loss, accuracy, params, N, epoch, noise_con
 
     #Visualization of learning process for XOR dataset
     fig = plt.figure(figsize=(10,50))
+    xaxis = np.arange(-1,2,0.1)
+    yaxis = np.arange(-1,2,0.1)
+    xaxis, yaxis = np.meshgrid(xaxis, yaxis)
     for i in range(5) : 
-        ax = fig.add_subplot(5,1,i+1,projection='3d')
-        xaxis = np.arange(-1,2,0.1)
-        yaxis = np.arange(-1,2,0.1)
-        xaxis, yaxis = np.meshgrid(xaxis, yaxis)
-
-        z1 = [0,0,0,0,0,0,0,0,0,0]
+        z1 = [0]*network.n2
         z = 0
-        for j in range(10) : 
+        ax = fig.add_subplot(5,1,i+1)
+        for j in range(network.n2) : 
             z1[j] = (params[0][(i)*(int(epoch*N/5))])[j][0]*xaxis+(params[0][(i)*(int(epoch*N/5))])[j][1]*yaxis+(params[2][(i)*(int(epoch*N/5))])[j]
             z1[j] = (z1[j]+np.sqrt(np.power(z1[j],2)+4*network.H))/2
-               
-        for j in range(10) : 
+                
+        for j in range(network.n2) : 
             z = z+(params[1][(i)*(int(epoch*N/5))])[0][j]*z1[j]
         z = z+params[3][(i)*(int(epoch*N/5))]
         z = (z+np.sqrt(np.power(z,2)+4*network.H))/2
-
-        ax.plot_surface(xaxis,yaxis,z,alpha=0.6)
-        ax.view_init(5,60)
-        ax.scatter(0,0,0,color='r')
-        ax.scatter(0,1,1,color='r')
-        ax.scatter(1,0,1,color='r')
-        ax.scatter(1,1,0,color='r')
-        plt.xlabel('x-axis')
-        plt.ylabel('y-axis')
-        ax.set_zlim(0,5)
+        labels = np.round(np.arange(-1,2,0.1),1)
+        df = pd.DataFrame(z, index=labels, columns=labels)
+        df = df.iloc[::-1,:]
+        ax = sns.heatmap(df)
     plt.show()
     return
 
@@ -113,32 +106,26 @@ def XOR_Leaky_ReLU(network, train_loss, accuracy, params, N, epoch, noise_contro
 
     #Visualization of learning process for XOR dataset
     fig = plt.figure(figsize=(10,50))
+    xaxis = np.arange(-1,2,0.1)
+    yaxis = np.arange(-1,2,0.1)
+    xaxis, yaxis = np.meshgrid(xaxis, yaxis)
     for i in range(5) : 
-        ax = fig.add_subplot(5,1,i+1,projection='3d')
-        xaxis = np.arange(-1,2,0.1)
-        yaxis = np.arange(-1,2,0.1)
-        xaxis, yaxis = np.meshgrid(xaxis, yaxis)
-        
-        z1 = [0,0,0,0,0,0,0,0,0,0]
+        ax = fig.add_subplot(5,1,i+1)
+        z1 = [0]*network.n2
         z = 0
-        for j in range(10) : 
+        for j in range(network.n2) : 
             z1[j] = (params[0][(i)*(int(epoch*N/5))])[j][0]*xaxis+(params[0][(i)*(int(epoch*N/5))])[j][1]*yaxis+(params[2][(i)*(int(epoch*N/5))])[j]
             z1[j] = (z1[j])*(network.alpha)*(z1[j]>0) + (z1[j])*(network.beta)*(z1[j]<0)
                
-        for j in range(10) : 
+        for j in range(network.n2) : 
             z = z+(params[1][(i)*(int(epoch*N/5))])[0][j]*z1[j]
         z = z+params[3][(i)*(int(epoch*N/5))]
         z = z*(network.alpha)*(z>0) + z*(network.beta)*(z<0)
 
-        ax.plot_surface(xaxis,yaxis,z,alpha=0.6)
-        ax.view_init(5,60)
-        ax.scatter(0,0,0,color='r')
-        ax.scatter(0,1,1,color='r')
-        ax.scatter(1,0,1,color='r')
-        ax.scatter(1,1,0,color='r')
-        plt.xlabel('x-axis')
-        plt.ylabel('y-axis')
-        ax.set_zlim(0,5)
+        labels = np.round(np.arange(-1,2,0.1),1)
+        df = pd.DataFrame(z, index=labels, columns=labels)
+        df = df.iloc[::-1,:]
+        ax = sns.heatmap(df)
     plt.show()
     return
 
