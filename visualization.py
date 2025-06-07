@@ -54,6 +54,7 @@ def XOR_smoothed_ReLU(network, train_loss, accuracy, params, N, epoch, noise_con
         z1 = [0]*network.n2
         z = 0
         ax = fig.add_subplot(5,1,i+1)
+        
         for j in range(network.n2) : 
             z1[j] = (params[0][(i)*(int(epoch*N/5))])[j][0]*xaxis+(params[0][(i)*(int(epoch*N/5))])[j][1]*yaxis+(params[2][(i)*(int(epoch*N/5))])[j]
             z1[j] = (z1[j]+np.sqrt(np.power(z1[j],2)+4*network.H))/2
@@ -65,7 +66,12 @@ def XOR_smoothed_ReLU(network, train_loss, accuracy, params, N, epoch, noise_con
         labels = np.round(np.arange(-1,2,0.1),1)
         df = pd.DataFrame(z, index=labels, columns=labels)
         df = df.iloc[::-1,:]
-        ax = sns.heatmap(df)
+        annot_df = pd.DataFrame("", index=df.index, columns=df.columns)
+        positions = [(9,10),(9,20),(19,10),(19,20)]
+        for i, j in positions:
+            annot_df.iat[i, j] = f"{df.iat[i, j]:.4f}"
+
+        ax = sns.heatmap(df,annot=annot_df,fmt="")
     plt.show()
     return
 
@@ -125,7 +131,11 @@ def XOR_Leaky_ReLU(network, train_loss, accuracy, params, N, epoch, noise_contro
         labels = np.round(np.arange(-1,2,0.1),1)
         df = pd.DataFrame(z, index=labels, columns=labels)
         df = df.iloc[::-1,:]
-        ax = sns.heatmap(df)
+        annot_df = pd.DataFrame("", index=df.index, columns=df.columns)
+        positions = [(9,10),(9,20),(19,10),(19,20)]
+        for i, j in positions:
+            annot_df.iat[i, j] = f"{df.iat[i, j]:.4f}"
+        ax = sns.heatmap(df,annot=annot_df,fmt="")
     plt.show()
     return
 
