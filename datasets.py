@@ -50,11 +50,3 @@ def XOR() :
     test_x = label_x
     test_y = label_y
     return label_x, label_y, test_x, test_y, N
-
-def sine():
-    N=13
-    label_y = [[np.sin(i/4)**2] for i in range(13)]
-    label_x = [[i/4] for i in range(13)]
-    test_x = label_x
-    test_y = label_y
-    return label_x,label_y,test_x,test_y,N
