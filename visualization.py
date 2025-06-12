@@ -70,8 +70,11 @@ def XOR_smoothed_ReLU(network, train_loss, accuracy, params, N, epoch, noise_con
         positions = [(9,10),(9,20),(19,10),(19,20)]
         for i, j in positions:
             annot_df.iat[i, j] = f"{df.iat[i, j]:.4f}"
-
-        ax = sns.heatmap(df,annot=annot_df,fmt="")
+        
+        sns.set(font_scale=2)
+        axislabel = ["-1","","","","","-0.5","","","","","0","","","","","0.5","","","","","1","","","","","1.5","","","","1.9"]
+        ax = sns.heatmap(df,annot=annot_df,fmt="",vmin=0,vmax=2,annot_kws={"size": 20},xticklabels=axislabel, yticklabels=axislabel[::-1])
+    plt.savefig('Learning process.svg', dpi=500)
     plt.show()
     return
 
@@ -135,7 +138,11 @@ def XOR_Leaky_ReLU(network, train_loss, accuracy, params, N, epoch, noise_contro
         positions = [(9,10),(9,20),(19,10),(19,20)]
         for i, j in positions:
             annot_df.iat[i, j] = f"{df.iat[i, j]:.4f}"
-        ax = sns.heatmap(df,annot=annot_df,fmt="")
+
+        sns.set(font_scale=2)
+        axislabel = ["-1","","","","","-0.5","","","","","0","","","","","0.5","","","","","1","","","","","1.5","","","","1.9"]
+        ax = sns.heatmap(df,annot=annot_df,fmt="",vmin=0,vmax=2,annot_kws={"size": 20},xticklabels=axislabel, yticklabels=axislabel[::-1])
+    plt.savefig('Learning process.svg', dpi=500)
     plt.show()
     return
 
